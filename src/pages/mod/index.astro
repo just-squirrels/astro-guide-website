@@ -1,0 +1,11 @@
+---
+import Base from "@/layouts/base.astro";
+import { canMod } from "@/lib/auth";
+
+if (!canMod(Astro)) return new Response(null, { status: 404 });
+
+---
+
+<Base title="Mod">
+	<h1>Mod</h1>
+</Base>

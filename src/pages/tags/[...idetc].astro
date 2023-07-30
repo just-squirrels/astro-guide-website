@@ -1,0 +1,22 @@
+---
+import Base from "@/layouts/base.astro";
+import { listByTag } from "@/lib/posts";
+import { getTag } from "@/lib/tags";
+
+const { idetc = "" } = Astro.params;
+const [id] = idetc.split("/");
+
+const [tag, posts] = await Promise.all([getTag(id), listByTag(id)]);
+if (!tag) {
+    return new Response(null, { status: 404 });
+}
+
+// TODO: soooo much more stuff;
+---
+
+<Base title={tag.name}>
+    <section class="flex flex-col">
+        <h1 class="text-3xl p-4">{tag.name}</h1>
+        <p class="text-md p-2">{tag.desc}</p>
+    </section>
+</Base>

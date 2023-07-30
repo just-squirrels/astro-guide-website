@@ -1,0 +1,11 @@
+---
+import Base from "@/layouts/base.astro";
+import { canAdmin } from "@/lib/auth";
+
+if (!canAdmin(Astro)) return new Response(null, { status: 404 });
+
+---
+
+<Base title="Admin">
+	<h1>Admin</h1>
+</Base>

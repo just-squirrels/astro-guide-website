@@ -1,0 +1,42 @@
+---
+import { genSignedToken } from "@/lib/utils";
+
+export type Props = {
+    title?: boolean;
+    summary?: boolean;
+    tags?: boolean;
+    type?: string;
+};
+const { title, summary, tags, type } = Astro.props;
+
+const { secret } = Astro.locals;
+const csrf = genSignedToken(secret, 30);
+
+---
+<form method="post" class="flex flex-col w-full max-w-3xl gap-4">
+    <input type="hidden" name="csrf" value={csrf}/>
+    {type && <input type="hidden" name="type" value={type}/>}
+    {title &&
+        <label class="flex flex-col gap-2">
+            Title
+            <input type="text" name="title" class="input input-bordered max-w-lg"/>
+        </label>
+    }
+    {summary &&
+        <label class="flex flex-col gap-2">
+            Summary
+            <textarea name="summary" class="textarea input-bordered"/>
+        </label>
+    }
+    <label class="flex flex-col gap-2">
+        Body
+        <textarea name="body" class="textarea input-bordered"/>
+    </label>
+    {tags && /* TODO: tags */
+        <label class="flex flex-col gap-2">
+            Tags
+            <input type="text" name="tags" class="input input-bordered max-w-md"/>
+        </label>
+    }
+    <button type="submit" class="btn btn-primary w-20">Post</button>
+</form>

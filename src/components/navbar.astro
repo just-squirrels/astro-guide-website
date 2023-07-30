@@ -1,0 +1,16 @@
+---
+import Search from "./search.astro";
+import AvatarMenu from "./avatarMenu.astro";
+import HamburgerMenu from "./hamburgerMenu.astro";
+
+const { alias } = Astro.locals;
+
+---
+
+<nav class="navbar flex justify-between">
+    <HamburgerMenu/>
+    <Search/>
+    {alias
+        ? <AvatarMenu/>
+        : <a href="/signin" class="btn btn-ghost">Sign in</a>}
+</nav>

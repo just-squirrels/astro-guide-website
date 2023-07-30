@@ -1,0 +1,33 @@
+---
+import Base from "@/layouts/base.astro";
+import { getPost, listByCollection } from "@/lib/posts";
+
+const { idetc = "" } = Astro.params;
+const [id] = idetc.split("/");
+
+const [post, collection] = await Promise.all([getPost(id), listByCollection(id)]);
+if (!post || post.type !== "article") {
+    return new Response(null, { status: 404 });
+}
+
+const title = post.title ?? post.id;
+
+// TODO: soooo much more stuff; need authors, dates, etc
+// TODO: the body isn't going to be just as tring, so it
+// needs to get parsed and converted too somehow (gotta
+// find a library I like, should support MD and also
+// better stuff)
+---
+
+<Base title={title}>
+    <section class="flex flex-col">
+        <h1 class="text-3xl p-4">{title}</h1>
+        <h2 class="text-2xl italic p-3">{post.summary}</h2>
+        <p class="text-md p-2">{post.body}</p>
+    </section>
+    {collection.map(item => {
+        <section class="flex flex-col">
+            <p class="text-sm p-2">{item.body}</p>
+        </section>
+    })}
+</Base>

@@ -1,0 +1,21 @@
+---
+import { canAdmin, canMod } from "@/lib/auth";
+const admin = canAdmin(Astro);
+const mod = canMod(Astro);
+const { alias } = Astro.locals;
+---
+<div class="dropdown dropdown-end">
+    <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+      <div class="w-10 rounded-full">
+        <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" alt={alias}/>
+      </div>
+    </label>
+    <ul tabindex="0" class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box">
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/settings">Settings</a></li>
+      {mod && <li><a href="/mod" class="font-bold link-primary">Mod</a></li>}
+      {admin && <li><a href="/admin" class="font-bold link-primary">Admin</a></li>}
+      <li><a href="/signout">Sign out</a></li>
+    </ul>
+</div>

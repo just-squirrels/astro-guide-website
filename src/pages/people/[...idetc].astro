@@ -1,0 +1,20 @@
+---
+import Base from "@/layouts/base.astro";
+
+const { idetc = "" } = Astro.params;
+const [id] = idetc.split("/");
+
+/*
+const [person, posts] = await Promise.all([getPerson(id), listByAuthor(id)]);
+if (!post || post.type !== "question") {
+    return new Response(null, { status: 404 });
+}
+*/
+
+---
+
+<Base title={id}>
+    <section class="flex flex-col">
+        <h1 class="text-3xl p-4">{id}</h1>
+    </section>
+</Base>

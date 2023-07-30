@@ -1,0 +1,34 @@
+---
+import Base from "@/layouts/base.astro";
+
+import { genSignedToken } from "@/lib/utils";
+
+const { alias, secret } = Astro.locals;
+
+if (!alias) return Astro.redirect("/articles");
+
+const csrf = genSignedToken(secret, 30);
+
+---
+
+<Base title="New Article">
+	<h1 class="text-3xl mt-3 mb-10">Write a new article</h1>
+	<form action="/articles/post" method="post" class="flex flex-col w-full max-w-3xl gap-4">
+		<input type="hidden" name="csrf" value={csrf}/>
+		<input type="hidden" name="type" value="article"/>
+		<label class="flex flex-col gap-2">
+			Title
+			<input type="text" name="title" class="input input-bordered max-w-lg"/>
+		</label>
+		<label class="flex flex-col gap-2">
+			Summary
+			<textarea name="summary" class="textarea input-bordered"/>
+		</label>
+		<label class="flex flex-col gap-2">
+			Body
+			<textarea name="body" class="textarea input-bordered"/>
+		</label>
+		{/* TODO: tags */}
+		<button type="submit" class="btn btn-primary w-20">Post</button>
+	</form>
+</Base>

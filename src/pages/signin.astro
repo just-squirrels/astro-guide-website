@@ -1,0 +1,36 @@
+---
+import Base from "@/layouts/base.astro";
+import { createSession } from "@/lib/sessions";
+
+// This is all for testing so it's got issues
+if (Astro.request.method === "POST") {
+    const formData = await Astro.request.formData();    
+    const alias = "" + formData.get("alias")?.valueOf();
+    const admin = !!formData.get("admin");
+    const mod = !!formData.get("mod");
+    const session = await createSession({ alias, admin, mod });
+    Astro.cookies.set("sid", session.sid);
+    return Astro.redirect("/");
+}
+
+---
+
+<Base title="Sign In">
+    <form method="post" class="m-auto flex flex-col">
+        <label class="flex items-center gap-2">
+            Alias
+            <input type="text" name="alias" class="input bg-neutral"/>
+        </label>
+        <div class="flex py-4 justify-between">
+            <label class="flex items-center gap-2">
+                Admin?
+                <input type="checkbox" name="admin" class="checkbox"/>
+            </label>
+            <label class="flex items-center gap-2">
+                Mod?
+                <input type="checkbox" name="mod" class="checkbox"/>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 mx-4">Sign in</button>
+    </form>
+</Base>
